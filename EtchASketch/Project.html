@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: green;
+        }
+        
+        body {
+            background-color: aquamarine
+        }
+        
+        #container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        #container div {
+            margin: none;
+            border: 0.1px solid black;
+        }
+        
+        main {
+            width: 1200px;
+            height: 600px;
+            margin: 20px;
+            background-color: cadetblue;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Etch-a-Sketch</h1>
+    </header>
+    <main>
+        <div id="container">
+
+        </div>
+        <button id="reset" style="margin: 50px;">
+            Reset 
+        </button>
+    </main>
+</body>
+<script>
+    let container = document.querySelector('#container');
+
+    let gridsize = prompt('enter grid size seperated by commas');
+    //console.log(gridsize);
+    var table = gridsize.split(',');
+    var row = parseInt(table[0]);
+    //console.log(rowWiseDivs);
+    var column = parseInt(table[1]);
+    //console.log(colWiseDivs);
+
+
+    var conheight = row * (600 / row);
+    console.log(conheight);
+    var conwidth = column * (1200 / column);
+    console.log(conwidth);
+    var divobject = function(box) {
+        this.box = box;
+        this.counter = 0;
+    }
+    var box = [];
+
+    var opac;
+    var bgcolor = ['tomato', 'pink', 'maroon', 'red'];
+
+    for (let i = 0; i < row * column; i++) {
+
+        box[i] = new divobject(document.createElement('div'));
+        box[i].box.addEventListener('mouseover', function() {
+            box[i].counter = (box[i].counter == 4) ? 0 : box[i].counter;
+            box[i].box.style.backgroundColor = bgcolor[box[i].counter++];
+        });
+
+        box[i].box.addEventListener('mouseleave', function() {
+            box[i].counter = (box[i].counter == 4) ? 0 : box[i].counter;
+            box[i].box.style.backgroundColor = bgcolor[box[i].counter];
+        });
+
+
+        box[i].box.style.height = (conheight / row) + "px";
+        box[i].box.style.width = (conwidth / column) + "px";
+        // console.log(box[i].style.height);
+        container.appendChild(box[i].box);
+    }
+    document.getElementById('reset').addEventListener('click', resetgrid);
+
+    function resetgrid() {
+        for (let i = 0; i < row * column; i++) {
+            box[i].box.style.backgroundColor = "cadetblue";
+        }
+    }
+</script>
+
+</html>
