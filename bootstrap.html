@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        * {
+            /* background-color: blueviolet; */
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: aqua
+        }
+        
+        main {
+            width: 1000px;
+            height: 1000px;
+        }
+        
+        section {
+            height: 100%;
+            width: 100%;
+        }
+        /* #container {
+            display: grid;
+            grid-auto-rows: minmax(50px, auto);
+            grid-auto-columns: minmax(50px, auto);
+        } */
+        
+        .table {
+            margin: none;
+            border: 0.1px solid black;
+            background-color: white !important;
+        }
+        
+        button {
+            background-color: greenyellow;
+            border: none;
+            box-shadow: 1px 2px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <h1 class="text-center text-white">Etch-a-Sketch</h1>
+    </header>
+    <main class="container">
+        <section>
+            <table class="table table-responsive">
+
+
+            </table>
+            <button id="reset" style="margin: 50px;">
+             Reset 
+            </button>
+        </section>
+    </main>
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script>
+    let container = document.querySelector('#container');
+
+    let gridsize = prompt('enter grid size seperated by commas');
+    // let gridsize = "13,17";
+    //console.log(gridsize);
+    var table = gridsize.split(',');
+    var row = parseInt(table[0]);
+    //console.log(rowWiseDivs);
+    var column = parseInt(table[1]);
+    //console.log(colWiseDivs);
+
+    var getwidth = $('main').outerWidth();
+    console.log(getwidth);
+    var getheight = $('main').outerHeight();
+    console.log(getheight);
+
+    var tdwidth = Math.floor(getwidth / column);
+    var tdheight = Math.floor(getheight / row);
+
+    var divobject = function(box) {
+        this.box = box;
+        this.counter = 0;
+    }
+    var box = [];
+
+    var opac;
+    var bgcolor = ['#fff', '#ddd', '#bbb', '#999', '#777', '#555', '#333', '#111'];
+    var tableElement = $('table');
+    // for (let i = 0; i < row; i++) {
+    //     trelement = document.createElement('tr');
+    //     tableElement.append(trelement);
+    //     for (let index = 0; index < column; index++) {
+    //         var newindex = i * row + index;
+    //         box[newindex] = new divobject(document.createElement('td'));
+
+    //         box[newindex].box.addEventListener('mouseover', function() {
+    //             box[newindex].counter = (box[newindex].counter == 8) ? 0 : box[newindex].counter;
+    //             box[newindex].box.style.backgroundColor = bgcolor[box[newindex].counter++];
+    //         });
+
+    //         box[newindex].box.addEventListener('mouseleave', function() {
+    //             box[newindex].counter = (box[newindex].counter == 4) ? 0 : box[newindex].counter;
+    //             box[newindex].box.style.backgroundColor = bgcolor[box[newindex].counter];
+    //         });
+    //         trelement.appendChild(box[newindex].box);
+    //         console.log(newindex);
+    //     }
+    // }
+
+    for (let i = 0; i < row; i++) {
+        trelement = document.createElement('tr');
+        tableElement.append(trelement);
+        for (let index = 0; index < column; index++) {
+            element = document.createElement('td');
+            element.setAttribute('counter', 0);
+            trelement.append(element);
+        }
+    }
+    $('td').css({
+        'height': tdheight,
+        'width': tdwidth,
+        'border': '1px solid black'
+    });
+    $('td').on({
+        mouseenter: function() {
+            $(this).attr('counter', (parseInt($(this).attr('counter')) == 8) ? 0 : parseInt($(this).attr('counter')));
+            $(this).css({
+                'background-color': bgcolor[(parseInt($(this).attr('counter')))]
+            });
+            $(this).attr('counter', (parseInt($(this).attr('counter'))) + 1);
+        },
+        mouseleave: function() {
+            $(this).attr('counter', (parseInt($(this).attr('counter')) == 8) ? 0 : (parseInt($(this).attr('counter'))));
+            $(this).css({
+                'background-color': bgcolor[parseInt($(this).attr('counter'))]
+            });
+            $(this).attr('counter', parseInt($(this).attr('counter')) + 1);
+        },
+    }, );
+    document.getElementById('reset').addEventListener('click', resetgrid);
+
+    function resetgrid() {
+        for (let i = 0; i < row * column; i++) {
+            box[i].box.style.backgroundColor = bgcolor[0];
+        }
+    }
+</script>
+
+</html>
